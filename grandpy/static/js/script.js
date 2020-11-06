@@ -26,7 +26,7 @@ function createBubble(text="dummy text", type='user'){
 
 	return bubble = 
 		'<div class="media-body ' + textPosition + '">' +
-		    '<small>' + hours + '</small><h5>' + who + '</h5>' +
+		    '<small>' + hours + '</small><h6><b>' + who + '</b></h6>' +
 		    '<div class="col-6 ' + offset + ' mt-1 rounded-pill border shadow ' + bg + ' ' + text_color + ' pt-3 pl-4">' +
 		        '<p>' + text + '</p>' +
 		    '</div>' +

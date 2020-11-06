@@ -45,31 +45,32 @@
                     <div id="chatbox" class="container bg-light text-dark rounded-lg shadow pt-3 mt-4">
 
                         <div class="media-body text-left">
-                            <small>14:38</small><h5>Papy Bot</h5>
+                            <small>14:38</small><h6><b>Papy Bot</b></h6>
                             <div class="chat-left message col-6 mt-1 rounded-pill border shadow bg-white text-dark pt-3 pl-4">
                                 <p>Ceci est un texte de Papy Bot !!</p>
                             </div>
                         </div>
 
                         <div class="media-body text-right">
-                            <small>14:48</small><h5>Vous</h5>
+                            <small>14:48</small><h6><b>Vous</b></h6>
                             <div class="chat-right message col-6 offset-6 mt-1 rounded-pill border shadow bg-info text-white pt-3 pl-4">
                                 <p>Ceci est votre texte !!!</p>
                             </div>
                         </div>
-
                     </div>
-                    
-                    <div class="container bg-light text-dark rounded-lg shadow pt-3 mt-4">
-                        <div class="input-group mb-3">
-                            <input id="input" type="text" class="col rounded-pill bg-white p-3 text-left border" placeholder="Tapez votre texte...">
-                            <div class="input-group-append">
-                                <button id="send_btn" class="btn btn-success rounded-pill ml-n5" type="button">Envoyer</button>
+
+                    <form action="http://localhost:5000/process" method="get">
+                        <div class="container bg-light text-dark rounded-lg shadow pt-3 mt-4">
+                            <div class="input-group mb-3">
+                                <input id="input" type="text" name="txt" class="col rounded-pill bg-white p-3 text-left border" placeholder="Tapez votre texte...">
+                                <div class="input-group-append">
+                                    <button id="send_btn" class="btn btn-success rounded-pill ml-n5" type="button">Envoyer</button>
+                                </div>
                             </div>
+                            <hr>
                         </div>
-                        <hr>
-                    </div>
-
+                    </form>
+                    
                 </div>
             </div>
         </div>
