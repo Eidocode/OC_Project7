@@ -1,6 +1,6 @@
 ﻿def get_stop_words(file):
 	file_content = []
-	with open(file, "r") as file:
+	with open(file, "r", encoding='utf-8') as file:
 		for word in file:
 			file_content.append(word)
 
@@ -8,5 +8,7 @@
 
 test = get_stop_words('./stop_words_fr.txt')
 
+i = 1
 for t in test:
-	print(t)
+	print(str(i) + " - " + t)
+	i += 1
