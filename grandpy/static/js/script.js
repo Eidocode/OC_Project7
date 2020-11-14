@@ -1,15 +1,21 @@
 // Add Two digits to hours and minutes
 // Check UserInput
 
-var date = new Date();
-var hours = date.getHours() + ":" + date.getMinutes();
 const chatbox = $("#chatbox")[0];
 
-
-function createBubble(text="dummy text", type='user'){
+function getHour(){
 	var date = new Date();
-	var hours = date.getHours() + ":" + date.getMinutes();
+	var hours = date.getHours();
+	var minutes = date.getMinutes();
+	if(hours < 10){ hours = "0" + hours; }
+	if(minutes < 10){ minutes = "0" + minutes; }
 
+	var time = hours + ":" + minutes;
+	return time;
+}
+
+function createMessage(text="dummy text", type='user'){
+	var time = getHour();
 	var textPosition = "text-right";
 	var who = "Vous";
 	var offset = "offset-6";
@@ -24,18 +30,38 @@ function createBubble(text="dummy text", type='user'){
 		bg = "bg-white";
 	}
 
-	return bubble = 
+	var message = 
 		'<div class="media-body ' + textPosition + '">' +
-		    '<small>' + hours + '</small><h6><b>' + who + '</b></h6>' +
+		    '<small>' + time + '</small><h6><b>' + who + '</b></h6>' +
 		    '<div class="col-6 ' + offset + ' mt-1 rounded-pill border shadow ' + bg + ' ' + text_color + ' pt-3 pl-4">' +
 		        '<p>' + text + '</p>' +
 		    '</div>' +
 		'</div>';
+
+	return message;
+}
+
+function addMessageToChat(message, type='user'){
+	newMessage = createMessage(message, type);
+	chatbox.innerHTML += newMessage;
 }
 
 
 $("#send_btn").click(function(){
 	var userText = $("#input").val();  // Return user input value
-	newBubble = createBubble(userText);
-	chatbox.innerHTML += newBubble;
+	addMessageToChat(userText);
+	$.ajax({
+		type : 'POST',
+		url : '/process',
+		data : { message : userText },
+		dataType : 'json',
+		success: function(response){
+			console.log(response.result);
+			var botText = response.result;
+			addMessageToChat(botText, 'bot');
+		},
+		failure: function(response){
+			alert("failure");
+		}
+	})
 })
