@@ -5,4 +5,8 @@ class Parser:
 	
 	def __init__(self):
 		self.stop_words = get_stop_words('./stop_words_fr.txt')
-		
+
+	def get_keywords(self, input):
+		pass
+
+
