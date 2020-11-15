@@ -1,12 +1,29 @@
-from stop_words import get_stop_words
+import re
+
+from .stop_words import get_stop_words
 
 class Parser:
 	"""docstring for Parser"""
 	
 	def __init__(self):
-		self.stop_words = get_stop_words('./stop_words_fr.txt')
+		self.stop_words = get_stop_words('./grandpy/bot/stop_words_fr.txt')
 
 	def get_keywords(self, input):
-		pass
+		
+		user_input = None
+		user_input = re.sub(r"\W+", " ", input).lower()
+		user_input = user_input.split(' ')
+
+		keywords = []
+		for word in user_input:
+			if word not in self.stop_words and word != '':
+				keywords.append(word)
+		
+		return keywords
 
 
+# parser = Parser()
+
+# test = parser.get_keywords("Bonjour, comment allez-vous ? J'espère que tout va bien.")
+# test = parser.get_keywords("Bonjour, je recherche la tour eiffel !")
+# print(test)
