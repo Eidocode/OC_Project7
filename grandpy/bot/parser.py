@@ -6,7 +6,7 @@ class Parser:
 	"""docstring for Parser"""
 	
 	def __init__(self):
-		self.stop_words = get_stop_words('./grandpy/bot/stop_words_fr.txt')
+		self.stop_words = get_stop_words('./grandpy/bot/final_stop_words.fic')
 
 	def get_keywords(self, input):
 		
