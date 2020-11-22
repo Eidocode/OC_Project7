@@ -1,8 +1,10 @@
 import wikipedia
 
-class Wiki_API:
+class WikiAPI:
     def __init__(self):
         wikipedia.set_lang("fr")
     
-    def get_search_result(self):
-        pass
+    def get_search_result(self, string):
+        print('[WIKIAPI] : ' + string)
+        result = wikipedia.summary(string, sentences=2)
+        return result

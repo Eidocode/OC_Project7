@@ -42,6 +42,17 @@ function createMessage(text="dummy text", type='user'){
 }
 
 function addMessageToChat(message, type='user'){
+	console.log(type + ' : ' + message.length + ' character(s)');
+
+	const nbCharPerMessage = 264
+	var nbCharMin = 0
+	var nbCharMax = nbCharPerMessage
+	while (message.length >= nbCharMax){
+		tinyMessage = message.substring(nbCharMin, nbCharMax-1)
+		nbCharMin += nbCharMax
+		nbCharMax += nbCharPerMessage
+	}
+
 	newMessage = createMessage(message, type);
 	chatbox.innerHTML += newMessage;
 }
@@ -56,7 +67,6 @@ $("#send_btn").click(function(){
 		data : { message : userText },
 		dataType : 'json',
 		success: function(response){
-			console.log(response.result);
 			var botText = response.result;
 			addMessageToChat(botText, 'bot');
 		},
