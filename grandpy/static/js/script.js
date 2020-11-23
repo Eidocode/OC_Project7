@@ -44,17 +44,32 @@ function createMessage(text="dummy text", type='user'){
 function addMessageToChat(message, type='user'){
 	console.log(type + ' : ' + message.length + ' character(s)');
 
-	const nbCharPerMessage = 264
-	var nbCharMin = 0
-	var nbCharMax = nbCharPerMessage
-	while (message.length >= nbCharMax){
-		tinyMessage = message.substring(nbCharMin, nbCharMax-1)
-		nbCharMin += nbCharMax
-		nbCharMax += nbCharPerMessage
+	const nbCharPerMessage = 180;
+	var nbCharMin = 0;
+	var nbCharMax = nbCharPerMessage;
+
+	var listMessages = [];
+
+	loop = true;
+	while (loop) {
+		if ((message.length > nbCharMin) && (message.length > nbCharMax)){
+			tinyMessage = message.substring(nbCharMin, nbCharMax);
+			nbCharMin += nbCharPerMessage;
+			nbCharMax += nbCharPerMessage;
+		}
+		else if ((message.length > nbCharMin) && (message.length <= nbCharMax)){
+			nbCharMax = message.length;
+			tinyMessage = message.substring(nbCharMin, nbCharMax);
+			loop = false;
+		}
+		console.log('MESSAGE BUBBLE : ' + tinyMessage)
+		listMessages.push(tinyMessage);
 	}
 
-	newMessage = createMessage(message, type);
-	chatbox.innerHTML += newMessage;
+	listMessages.forEach(thisMessage => {
+		newMessage = createMessage(thisMessage, type);
+		chatbox.innerHTML += newMessage;
+	});
 }
 
 

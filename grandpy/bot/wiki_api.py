@@ -6,5 +6,5 @@ class WikiAPI:
     
     def get_search_result(self, string):
         print('[WIKIAPI] : ' + string)
-        result = wikipedia.summary(string, sentences=2)
+        result = wikipedia.summary(string)
         return result
