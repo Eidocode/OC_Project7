@@ -1,6 +1,6 @@
 import googlemaps
 
-KEY = 'AIzaSyCb79shQmcjhChQayZCo2VPE4m1bMNpzDE'
+KEY = ''
 
 class GmapsAPI:
     def __init__(self):
