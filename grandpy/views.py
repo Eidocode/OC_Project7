@@ -21,6 +21,10 @@ def process():
 		parsed_message = parser.get_keywords(message)
 		print('[VIEWS] parsed input : ' + str(parsed_message))
 		reply = wiki.get_search_result(' '.join(parsed_message))
+		print('[VIEWS] Title page : ' + wiki.page.title)
+		coord = wiki.get_coordinates()
+		print('[VIEWS] Coordinates : ' + str(coord))
+
 
 	return jsonify(result=reply)
 
