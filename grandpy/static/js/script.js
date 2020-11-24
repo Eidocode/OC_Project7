@@ -33,7 +33,7 @@ function createMessage(text="dummy text", type='user'){
 	var message = 
 		'<div class="media-body ' + textPosition + '">' +
 		    '<small>' + time + '</small><h6><b>' + who + '</b></h6>' +
-		    '<div class="col-6 ' + offset + ' mt-1 rounded-pill border shadow ' + bg + ' ' + text_color + ' pt-3 pl-4">' +
+		    '<div class="bubble col-6 ' + offset + ' mt-1 border shadow ' + bg + ' ' + text_color + ' pt-3 pl-4">' +
 		        '<p>' + text + '</p>' +
 		    '</div>' +
 		'</div>';
@@ -43,33 +43,8 @@ function createMessage(text="dummy text", type='user'){
 
 function addMessageToChat(message, type='user'){
 	console.log(type + ' : ' + message.length + ' character(s)');
-
-	const nbCharPerMessage = 180;
-	var nbCharMin = 0;
-	var nbCharMax = nbCharPerMessage;
-
-	var listMessages = [];
-
-	loop = true;
-	while (loop) {
-		if ((message.length > nbCharMin) && (message.length > nbCharMax)){
-			tinyMessage = message.substring(nbCharMin, nbCharMax);
-			nbCharMin += nbCharPerMessage;
-			nbCharMax += nbCharPerMessage;
-		}
-		else if ((message.length > nbCharMin) && (message.length <= nbCharMax)){
-			nbCharMax = message.length;
-			tinyMessage = message.substring(nbCharMin, nbCharMax);
-			loop = false;
-		}
-		console.log('MESSAGE BUBBLE : ' + tinyMessage)
-		listMessages.push(tinyMessage);
-	}
-
-	listMessages.forEach(thisMessage => {
-		newMessage = createMessage(thisMessage, type);
-		chatbox.innerHTML += newMessage;
-	});
+	newMessage = createMessage(message, type);
+	chatbox.innerHTML += newMessage;
 }
 
 
