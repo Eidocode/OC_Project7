@@ -35,7 +35,8 @@ function createMessage(text="dummy text", type='user'){
 		    '<small>' + time + '</small><h6><b>' + who + '</b></h6>' +
 		    '<div class="bubble col-6 ' + offset + ' mt-1 border shadow ' + bg + ' ' + text_color + ' pt-3 pl-4">' +
 		        '<p>' + text + '</p>' +
-		    '</div>' +
+			'</div>' +
+			'<button onClick="seeMore()" id="seeMoreButton"></button>' +
 		'</div>';
 
 	return message;
@@ -43,8 +44,31 @@ function createMessage(text="dummy text", type='user'){
 
 function addMessageToChat(message, type='user'){
 	console.log(type + ' : ' + message.length + ' character(s)');
+
+	if (message.length > 150){
+		messageMin = message.substring(0,150)
+		messageMax = message.substring(150,message.length)
+		message = messageMin + '<span id="dots">...</span><span id="more">' + messageMax
+	}
+
 	newMessage = createMessage(message, type);
 	chatbox.innerHTML += newMessage;
+}
+
+function seeMore(){
+	var dots = document.getElementById("dots");
+	var moreText = document.getElementById("more");
+	var btnText = document.getElementById("seeMoreButton");
+
+	if (dots.style.display === "none") {
+		dots.style.display = "inline";
+		btnText.innerHTML = "Read more";
+		moreText.style.display = "none";
+	} else {
+		dots.style.display = "none";
+		btnText.innerHTML = "Read less";
+		moreText.style.display = "inline"
+	}
 }
 
 

@@ -6,6 +6,14 @@
 
 }
 
+#more {
+	display: none;
+}
+
+/* #seeMoreButton {
+	display: none;
+} */
+
 .bubble {
 	border-radius: 25px;
 }
