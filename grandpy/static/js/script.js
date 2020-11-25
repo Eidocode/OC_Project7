@@ -2,6 +2,7 @@
 // Check UserInput
 
 const chatbox = $("#chatbox")[0];
+var idNumber = 0;
 
 function getHour(){
 	var date = new Date();
@@ -36,9 +37,10 @@ function createMessage(text="dummy text", type='user'){
 		    '<div class="bubble col-6 ' + offset + ' mt-1 border shadow ' + bg + ' ' + text_color + ' pt-3 pl-4">' +
 		        '<p>' + text + '</p>' +
 			'</div>' +
-			'<button onClick="seeMore()" id="seeMoreButton"></button>' +
-		'</div>';
-
+			'<button onClick="seeMore()" id="seeMoreButton' + idNumber + '"></button>' +
+        '</div>';
+    console.log("id Number : " + idNumber);
+    idNumber++;
 	return message;
 }
 
@@ -48,7 +50,7 @@ function addMessageToChat(message, type='user'){
 	if (message.length > 150){
 		messageMin = message.substring(0,150)
 		messageMax = message.substring(150,message.length)
-		message = messageMin + '<span id="dots">...</span><span id="more">' + messageMax
+		message = messageMin + '<span id="dots' + idNumber + '">...</span><span id="more' + idNumber + '">' + messageMax
 	}
 
 	newMessage = createMessage(message, type);
@@ -56,10 +58,12 @@ function addMessageToChat(message, type='user'){
 }
 
 function seeMore(){
-	var dots = document.getElementById("dots");
-	var moreText = document.getElementById("more");
-	var btnText = document.getElementById("seeMoreButton");
 
+
+	var dots = document.getElementById("dots" + idNumber);
+	var moreText = document.getElementById("more" + idNumber);
+    var btnText = document.getElementById("seeMoreButton" + idNumber);
+    
 	if (dots.style.display === "none") {
 		dots.style.display = "inline";
 		btnText.innerHTML = "Read more";
@@ -71,6 +75,10 @@ function seeMore(){
 	}
 }
 
+$("[id^=seeMoreButton]").click(function(){
+    var id = $(this).attr("id");
+    alert(id);
+})
 
 $("#send_btn").click(function(){
 	var userText = $("#input").val();  // Return user input value

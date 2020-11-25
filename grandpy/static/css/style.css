@@ -6,8 +6,12 @@
 
 }
 
-#more {
+/* #more {
 	display: none;
+} */
+
+div[id^="more_"] {
+    display: none;
 }
 
 /* #seeMoreButton {
