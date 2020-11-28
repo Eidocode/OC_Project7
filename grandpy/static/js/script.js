@@ -15,7 +15,7 @@ function getHour(){
 	return time;
 }
 
-function createMessage(text="dummy text", type='user'){
+function createMessage(text="dummy text", type='user', btn){
 	var time = getHour();
 	var textPosition = "text-right";
 	var who = "Vous";
@@ -23,62 +23,66 @@ function createMessage(text="dummy text", type='user'){
 	var text_color = "text-white";
 	var bg = "bg-info";
 
-    if (type == 'bot') {
+    if (type === 'bot') {
 		textPosition = "text-left";
 		who = "Papy Bot";
 		offset = "offset";
 		text_color = "text-dark";
 		bg = "bg-white";
-	}
+    }
+    
+    var idName = "seeMoreButton_" + idNumber;
+    btnState = "d-none";
+    if (btn === 'enabled'){
+        btnState = "d-inline";
+    }
+
 
 	var message = 
 		'<div class="media-body ' + textPosition + '">' +
 		    '<small>' + time + '</small><h6><b>' + who + '</b></h6>' +
 		    '<div class="bubble col-6 ' + offset + ' mt-1 border shadow ' + bg + ' ' + text_color + ' pt-3 pl-4">' +
-		        '<p>' + text + '</p>' +
+                '<p>' + text + '</p>' +
+			    '<button class="' + btnState + ' btn-primary btn-circle mb-2" onClick="seeMore(' + idName + ')" id="seeMoreButton_' + idNumber + '"><i class="fa fa-plus"></i></button>' +
 			'</div>' +
-			'<button onClick="seeMore()" id="seeMoreButton' + idNumber + '"></button>' +
         '</div>';
-    console.log("id Number : " + idNumber);
     idNumber++;
 	return message;
 }
 
+function seeMore(thisId){
+    var idNum = $(thisId).attr("id").split("_")[1];
+    console.log("ID : " + idNum);
+
+    var dots = $("#dots_" + idNum);
+    var moreText = $("#more_" + idNum);
+    var btnText = $("#seeMoreButton_" + idNum);
+
+    if (dots.attr('class') === 'd-none') {
+        dots.removeClass('d-none').addClass('d-inline');
+        moreText.removeClass('d-inline').addClass('d-none');
+        btnText.find('i').removeClass("fa fa-minus").addClass("fa fa-plus")
+    } else {
+        dots.removeClass('d-inline').addClass('d-none');
+        moreText.removeClass('d-none').addClass('d-inline');
+        btnText.find('i').removeClass("fa fa-plus").addClass("fa fa-minus")
+    }
+}
+
 function addMessageToChat(message, type='user'){
-	console.log(type + ' : ' + message.length + ' character(s)');
+    console.log(type + ' : ' + message.length + ' character(s)');
+    btnState = 'disabled';
 
 	if (message.length > 150){
 		messageMin = message.substring(0,150)
 		messageMax = message.substring(150,message.length)
-		message = messageMin + '<span id="dots' + idNumber + '">...</span><span id="more' + idNumber + '">' + messageMax
+        message = messageMin + '<span class="d-inline" id="dots_' + idNumber + '">...</span><span class="d-none" id="more_' + idNumber + '">' + messageMax
+        btnState = 'enabled'
 	}
 
-	newMessage = createMessage(message, type);
+	newMessage = createMessage(message, type, btnState);
 	chatbox.innerHTML += newMessage;
 }
-
-function seeMore(){
-
-
-	var dots = document.getElementById("dots" + idNumber);
-	var moreText = document.getElementById("more" + idNumber);
-    var btnText = document.getElementById("seeMoreButton" + idNumber);
-    
-	if (dots.style.display === "none") {
-		dots.style.display = "inline";
-		btnText.innerHTML = "Read more";
-		moreText.style.display = "none";
-	} else {
-		dots.style.display = "none";
-		btnText.innerHTML = "Read less";
-		moreText.style.display = "inline"
-	}
-}
-
-$("[id^=seeMoreButton]").click(function(){
-    var id = $(this).attr("id");
-    alert(id);
-})
 
 $("#send_btn").click(function(){
 	var userText = $("#input").val();  // Return user input value

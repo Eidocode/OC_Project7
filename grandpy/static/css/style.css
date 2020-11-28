@@ -6,18 +6,12 @@
 
 }
 
-/* #more {
-	display: none;
-} */
-
-div[id^="more_"] {
-    display: none;
-}
-
-/* #seeMoreButton {
-	display: none;
-} */
-
 .bubble {
 	border-radius: 25px;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
 }
