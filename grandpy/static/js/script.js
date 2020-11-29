@@ -42,10 +42,11 @@ function createMessage(text="dummy text", type='user', btn){
 		    '<small>' + time + '</small><h6><b>' + who + '</b></h6>' +
 		    '<div class="bubble col-6 ' + offset + ' mt-1 border shadow ' + bg + ' ' + text_color + ' pt-3 pl-4">' +
                 '<p>' + text + '</p>' +
-			    '<button class="' + btnState + ' btn-primary btn-circle mb-2" onClick="seeMore(' + idName + ')" id="seeMoreButton_' + idNumber + '"><i class="fa fa-plus"></i></button>' +
-			'</div>' +
+                '<button class="' + btnState + ' btn-primary btn-circle mb-2" onClick="seeMore(' + idName + ')" id="seeMoreButton_' + idNumber + '"><i class="fa fa-plus"></i></button>' +
+            '</div>' +
+        '</div>' +
+        '<div id="map_' + idNumber + ' style="clear:both; height:200px;">' +
         '</div>';
-    idNumber++;
 	return message;
 }
 
@@ -68,8 +69,11 @@ function seeMore(thisId){
     }
 }
 
-function addGmapToChat(){
-    
+function addGmapToChat(id){
+    map = new google.maps.Map(document.getElementById("map_" + id), {
+        center : new google.maps.LatLng(49.8946252, 2.3020481),
+        zoom : 11
+    });
 }
 
 function addMessageToChat(message, type='user'){
@@ -83,7 +87,7 @@ function addMessageToChat(message, type='user'){
         btnState = 'enabled'
 	}
 
-	newMessage = createMessage(message, type, btnState);
+    newMessage = createMessage(message, type, btnState); 
 	chatbox.innerHTML += newMessage;
 }
 
@@ -97,10 +101,12 @@ $("#send_btn").click(function(){
 		dataType : 'json',
 		success: function(response){
 			var botText = response.result;
-			addMessageToChat(botText, 'bot');
+            addMessageToChat(botText, 'bot');
+            addGmapToChat(idNumber);
 		},
 		failure: function(response){
 			alert("failure");
 		}
-	})
+    })
+    idNumber++;
 })

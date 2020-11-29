@@ -33,7 +33,7 @@ def process():
         print('[VIEWS] Title page : ' + wiki.page.title)
         coord = wiki.get_coordinates()
         print('[VIEWS] Coordinates : ' + str(coord))
-        print(gmaps.get_informations(' '.join(parsed_message)))
+        gmaps.get_coordinates(' '.join(parsed_message))
 
     return jsonify(result=reply)
 

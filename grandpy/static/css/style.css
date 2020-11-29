@@ -6,6 +6,10 @@
 
 }
 
+#map {
+    height:100%;
+}
+
 .bubble {
 	border-radius: 25px;
 }

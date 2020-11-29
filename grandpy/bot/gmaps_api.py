@@ -12,4 +12,11 @@ class GmapsAPI:
 
         return result
 
+    def get_coordinates(self, string):
+        res = self.get_informations(string)
+        lat = res[0]["geometry"]["location"]["lat"]
+        lng = res[0]["geometry"]["location"]["lng"]
+        print("[GMAPS API] Latitude : " + str(lat))
+        print("[GMAPS API] Longitude : " + str(lng))
 
+        return lat, lng
