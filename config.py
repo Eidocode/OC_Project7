@@ -1,3 +1,6 @@
-# Config options - Make sure you created a 'config.py' file.
-app.config.from_object('config')
-# To get one variable, tape app.config['MY_VARIABLE']
+# To generate a new secret key:
+# >>> import random, string
+# >>> "".join([random.choice(string.printable) for _ in range(24)])
+SECRET_KEY = ''
+
+GMAPS_APP_ID = ''

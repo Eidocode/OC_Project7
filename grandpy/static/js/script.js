@@ -37,7 +37,6 @@ function createMessage(text="dummy text", type='user', btn){
         btnState = "d-inline";
     }
 
-
 	var message = 
 		'<div class="media-body ' + textPosition + '">' +
 		    '<small>' + time + '</small><h6><b>' + who + '</b></h6>' +
@@ -67,6 +66,10 @@ function seeMore(thisId){
         moreText.removeClass('d-none').addClass('d-inline');
         btnText.find('i').removeClass("fa fa-plus").addClass("fa fa-minus")
     }
+}
+
+function addGmapToChat(){
+    
 }
 
 function addMessageToChat(message, type='user'){
