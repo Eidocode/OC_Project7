@@ -69,10 +69,10 @@ function seeMore(thisId){
     }
 }
 
-function initMap(id){
-    var test = {lat: 48.85837009999999, lng: 2.2944813};
+function initMap(id, coord){
+    // var test = {lat: 48.85837009999999, lng: 2.2944813};
     var map = new google.maps.Map(document.getElementById("map_" + id), {
-        center : test,
+        center : coord,
         zoom : 16
 	});
 	return map
@@ -93,6 +93,10 @@ function addMessageToChat(message, type='user'){
 	chatbox.innerHTML += newMessage;
 }
 
+function updateScroll(){
+	chatbox.scrollTop = chatbox.scrollHeight;
+}
+
 $("#send_btn").click(function(){
 	var userText = $("#input").val();  // Return user input value
 	addMessageToChat(userText);
@@ -102,9 +106,11 @@ $("#send_btn").click(function(){
 		data : { message : userText },
 		dataType : 'json',
 		success: function(response){
-			var botText = response.result;
-            addMessageToChat(botText, 'bot');
-            initMap(idNumber);
+			var respons = response.result;
+            addMessageToChat(respons['wikiped'], 'bot');
+			initMap(idNumber, respons['gmap_coord']);
+			updateScroll();
+			$("#input").val("");
 		},
 		failure: function(response){
 			alert("failure");

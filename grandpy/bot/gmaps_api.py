@@ -19,4 +19,9 @@ class GmapsAPI:
         print("[GMAPS API] Latitude : " + str(lat))
         print("[GMAPS API] Longitude : " + str(lng))
 
-        return lat, lng
+        result = {
+            "lat": lat,
+            "lng": lng
+        }
+
+        return result

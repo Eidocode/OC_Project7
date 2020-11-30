@@ -31,11 +31,13 @@ def process():
         print('[VIEWS] parsed input : ' + str(parsed_message))
         reply = wiki.get_search_result(' '.join(parsed_message))
         print('[VIEWS] Title page : ' + wiki.page.title)
-        coord = wiki.get_coordinates()
-        print('[VIEWS] Coordinates : ' + str(coord))
-        gmaps.get_coordinates(' '.join(parsed_message))
+        coord = gmaps.get_coordinates(' '.join(parsed_message))
 
-    return jsonify(result=reply)
+    res = {
+        "wikiped" : reply,
+        "gmap_coord" : coord
+    }
+    return jsonify(result=res)
 
 
 if __name__ == "__main__":
