@@ -1,0 +1,5 @@
+.git/
+.vscode/
+__pycache__/
+grandpy/__pycache__/
+grandpy/bot/__pycache__/
