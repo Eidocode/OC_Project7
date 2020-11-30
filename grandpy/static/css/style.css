@@ -6,8 +6,9 @@
 
 }
 
-#map {
-    height:100%;
+.gmap {
+	height: 300px;
+	width : 300px;
 }
 
 .bubble {

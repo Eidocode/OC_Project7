@@ -22,6 +22,7 @@ function createMessage(text="dummy text", type='user', btn){
 	var offset = "offset-6";
 	var text_color = "text-white";
 	var bg = "bg-info";
+	var gmap_widget = '<div></div>';
 
     if (type === 'bot') {
 		textPosition = "text-left";
@@ -29,6 +30,7 @@ function createMessage(text="dummy text", type='user', btn){
 		offset = "offset";
 		text_color = "text-dark";
 		bg = "bg-white";
+		gmap_widget = '<div id="map_' + idNumber + '"  class="gmap border border-primary"></div>'
     }
     
     var idName = "seeMoreButton_" + idNumber;
@@ -41,11 +43,9 @@ function createMessage(text="dummy text", type='user', btn){
 		'<div class="media-body ' + textPosition + '">' +
 		    '<small>' + time + '</small><h6><b>' + who + '</b></h6>' +
 		    '<div class="bubble col-6 ' + offset + ' mt-1 border shadow ' + bg + ' ' + text_color + ' pt-3 pl-4">' +
-                '<p>' + text + '</p>' +
-                '<button class="' + btnState + ' btn-primary btn-circle mb-2" onClick="seeMore(' + idName + ')" id="seeMoreButton_' + idNumber + '"><i class="fa fa-plus"></i></button>' +
+				'<p>' + text + gmap_widget +'</p>' +
+				'<button class="' + btnState + ' btn-primary btn-circle mb-2" onClick="seeMore(' + idName + ')" id="seeMoreButton_' + idNumber + '"><i class="fa fa-plus"></i></button>' +
             '</div>' +
-        '</div>' +
-        '<div id="map_' + idNumber + ' style="clear:both; height:200px;">' +
         '</div>';
 	return message;
 }
@@ -69,11 +69,13 @@ function seeMore(thisId){
     }
 }
 
-function addGmapToChat(id){
-    map = new google.maps.Map(document.getElementById("map_" + id), {
-        center : new google.maps.LatLng(49.8946252, 2.3020481),
-        zoom : 11
-    });
+function initMap(id){
+    var test = {lat: 48.85837009999999, lng: 2.2944813};
+    var map = new google.maps.Map(document.getElementById("map_" + id), {
+        center : test,
+        zoom : 16
+	});
+	return map
 }
 
 function addMessageToChat(message, type='user'){
@@ -102,7 +104,7 @@ $("#send_btn").click(function(){
 		success: function(response){
 			var botText = response.result;
             addMessageToChat(botText, 'bot');
-            addGmapToChat(idNumber);
+            initMap(idNumber);
 		},
 		failure: function(response){
 			alert("failure");
