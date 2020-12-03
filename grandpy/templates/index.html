@@ -46,12 +46,12 @@
 
                     </div>
 
-                    <form action="http://localhost:5000/process" method="get">
+                    <form action="http://localhost:5000/process" method="post">
                         <div class="container bg-light text-dark rounded-lg shadow pt-3 mt-4">
                             <div class="input-group mb-3">
-                                <input id="input" type="text" name="txt" class="col rounded-pill bg-white p-3 text-left border" placeholder="Tapez votre texte...">
+                                <input id="input" type="text" name="txt" class="form-control bubble col bg-white text-left border" placeholder="Tapez votre texte...">
                                 <div class="input-group-append">
-                                    <button id="send_btn" class="btn btn-success rounded-pill ml-n5" type="button">Envoyer</button>
+                                    <button id="send_btn" class="btn btn-success bubble" type="submit" disabled>Envoyer</button>
                                 </div>
                             </div>
                             <hr>

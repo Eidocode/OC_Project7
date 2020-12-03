@@ -97,6 +97,17 @@ function updateScroll(){
 	chatbox.scrollTop = chatbox.scrollHeight;
 }
 
+
+$(document).ready(function(){
+	$("#input").keyup(function(){
+		if($(this).val().length > 1){
+			$("#send_btn").attr('disabled', false);
+		} else {
+			$("#send_btn").attr('disabled', true);
+		}
+	})
+})
+
 $("#send_btn").click(function(){
 	var userText = $("#input").val();  // Return user input value
 	addMessageToChat(userText);
@@ -110,11 +121,12 @@ $("#send_btn").click(function(){
             addMessageToChat(respons['wikiped'], 'bot');
 			initMap(idNumber, respons['gmap_coord']);
 			updateScroll();
-			$("#input").val("");
 		},
 		failure: function(response){
 			alert("failure");
 		}
-    })
+	})
+	$("#input").val("");
+	$("#send_btn").attr('disabled', true);
     idNumber++;
 })

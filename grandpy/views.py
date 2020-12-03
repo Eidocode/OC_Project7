@@ -21,17 +21,16 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/process', methods=['GET', 'POST'])
+@app.route('/process', methods=['POST'])
 def process():
-
     if request.method == 'POST':
         message = request.form['message']
-        print('[VIEWS] user input : ' + message)
         parsed_message = parser.get_keywords(message)
-        print('[VIEWS] parsed input : ' + str(parsed_message))
         reply = wiki.get_search_result(' '.join(parsed_message))
-        print('[VIEWS] Title page : ' + wiki.page.title)
         coord = gmaps.get_coordinates(' '.join(parsed_message))
+        print('[VIEWS] user input : ' + message)
+        print('[VIEWS] parsed input : ' + str(parsed_message))
+        print('[VIEWS] Title page : ' + wiki.page.title)
 
     res = {
         "wikiped" : reply,

@@ -1,14 +1,14 @@
 #chatbox {
-
-	min-height: 600px;
-	max-height: 800px;
+	height: 600px;
 	overflow: auto;
+}
 
+#input {
+	height: 45px;
 }
 
 .gmap {
 	height: 300px;
-	
 }
 
 .bubble {
