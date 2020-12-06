@@ -53,15 +53,21 @@ function createMessage(text, type='user', btn, map=false){
 	return message;
 }
 
-function addMessageToChat(message, type='user', map=false){
+function addMessageToChat(message, type='user', map=false, url){
     console.log(type + ' : ' + message.length + ' character(s)');
-    btnState = 'disabled';
+	var btnState = 'disabled';
+	var link = null;
 
 	if (message.length > 150){
-		messageMin = message.substring(0,150)
-		messageMax = message.substring(150,message.length)
-        message = messageMin + '<span class="d-inline" id="dots_' + idNumber + '">...</span><span class="d-none" id="more_' + idNumber + '">' + messageMax
+		messageMin = message.substring(0,150);
+		messageMax = message.substring(150,message.length);
+		message = messageMin + '<span class="d-inline" id="dots_' + idNumber + '">...</span><span class="d-none" id="more_' + idNumber + '">' + messageMax;
         btnState = 'enabled'
+	}
+
+	if (url != null){
+		link = ' ' + '<a href="' + url + '">[Page Wikipedia]</a>';
+		message += link;
 	}
 
     newMessage = createMessage(message, type, btnState, map); 
@@ -126,8 +132,13 @@ $("#send_btn").click(function(){
 		data : { message : userText },
 		dataType : 'json',
 		success: function(response){
-            var respons = response.result;
-            addMessageToChat(respons['first_message'], 'bot');
+			var respons = response.result;
+			var this_url = null;
+			if (respons['url'] != null){
+				this_url = respons['url'];
+				console.log(this_url);
+			}
+            addMessageToChat(respons['first_message'], 'bot', map=false, url=this_url);
 
             if (respons['gmap_coord'] != null){
                 idNumber++;
