@@ -15,7 +15,7 @@ function getHour(){
 	return time;
 }
 
-function createMessage(text="dummy text", type='user', btn){
+function createMessage(text, type='user', btn, map=false){
 	var time = getHour();
 	var textPosition = "text-right";
 	var who = "Vous";
@@ -30,6 +30,9 @@ function createMessage(text="dummy text", type='user', btn){
 		offset = "offset";
 		text_color = "text-dark";
 		bg = "bg-white";
+    }
+
+    if (map === true) {
 		gmap_widget = '<div id="map_' + idNumber + '"  class="gmap border border-primary"></div>'
     }
     
@@ -48,6 +51,21 @@ function createMessage(text="dummy text", type='user', btn){
             '</div>' +
         '</div>';
 	return message;
+}
+
+function addMessageToChat(message, type='user', map=false){
+    console.log(type + ' : ' + message.length + ' character(s)');
+    btnState = 'disabled';
+
+	if (message.length > 150){
+		messageMin = message.substring(0,150)
+		messageMax = message.substring(150,message.length)
+        message = messageMin + '<span class="d-inline" id="dots_' + idNumber + '">...</span><span class="d-none" id="more_' + idNumber + '">' + messageMax
+        btnState = 'enabled'
+	}
+
+    newMessage = createMessage(message, type, btnState, map); 
+    chatbox.innerHTML += newMessage;
 }
 
 function seeMore(thisId){
@@ -74,23 +92,12 @@ function initMap(id, coord){
     var map = new google.maps.Map(document.getElementById("map_" + id), {
         center : coord,
         zoom : 16
-	});
+    });
+    console.log("ID : " + id)
+    console.log("COORD : " + coord)
+
+    idNumber++;
 	return map
-}
-
-function addMessageToChat(message, type='user'){
-    console.log(type + ' : ' + message.length + ' character(s)');
-    btnState = 'disabled';
-
-	if (message.length > 150){
-		messageMin = message.substring(0,150)
-		messageMax = message.substring(150,message.length)
-        message = messageMin + '<span class="d-inline" id="dots_' + idNumber + '">...</span><span class="d-none" id="more_' + idNumber + '">' + messageMax
-        btnState = 'enabled'
-	}
-
-    newMessage = createMessage(message, type, btnState); 
-	chatbox.innerHTML += newMessage;
 }
 
 function updateScroll(){
@@ -108,8 +115,10 @@ $(document).ready(function(){
 	})
 })
 
+addMessageToChat("Bonjour et bienvenue !!!", 'bot');
+
 $("#send_btn").click(function(){
-	var userText = $("#input").val();  // Return user input value
+    var userText = $("#input").val();  // Return user input value
 	addMessageToChat(userText);
 	$.ajax({
 		type : 'POST',
@@ -117,9 +126,14 @@ $("#send_btn").click(function(){
 		data : { message : userText },
 		dataType : 'json',
 		success: function(response){
-			var respons = response.result;
-            addMessageToChat(respons['wikiped'], 'bot');
-			initMap(idNumber, respons['gmap_coord']);
+            var respons = response.result;
+            addMessageToChat(respons['first_message'], 'bot');
+
+            if (respons['gmap_coord'] != null){
+                idNumber++;
+                addMessageToChat(respons['second_message'], 'bot', map=true);
+                initMap(idNumber, respons['gmap_coord']);
+            }
 			updateScroll();
 		},
 		failure: function(response){
@@ -127,6 +141,6 @@ $("#send_btn").click(function(){
 		}
 	})
 	$("#input").val("");
-	$("#send_btn").attr('disabled', true);
+    $("#send_btn").attr('disabled', true);
     idNumber++;
 })

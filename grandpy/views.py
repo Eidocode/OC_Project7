@@ -3,6 +3,8 @@ from flask import Flask, render_template, request, jsonify
 from grandpy.bot.parser import Parser
 from grandpy.bot.wiki_api import WikiAPI
 from grandpy.bot.gmaps_api import GmapsAPI
+from grandpy.bot.answers import get_answer
+
 
 app = Flask(__name__)
 
@@ -25,16 +27,27 @@ def index():
 def process():
     if request.method == 'POST':
         message = request.form['message']
-        parsed_message = parser.get_keywords(message)
-        reply = wiki.get_search_result(' '.join(parsed_message))
-        coord = gmaps.get_coordinates(' '.join(parsed_message))
-        print('[VIEWS] user input : ' + message)
-        print('[VIEWS] parsed input : ' + str(parsed_message))
-        print('[VIEWS] Title page : ' + wiki.page.title)
+        parsed_message = ' '.join(parser.get_keywords(message))
+        wiki_result = wiki.get_search_result(parsed_message)
+
+        if wiki_result == 'error':
+            first_message = get_answer('error')
+            second_message = None
+            coord = None
+        else:
+            coord = gmaps.get_coordinates(parsed_message)
+            addr = gmaps.get_address(parsed_message)
+            second_message = wiki_result
+            first_message = get_answer('valid') + addr
+            print('[VIEWS] user input : ' + message)
+            print('[VIEWS] parsed input : ' + parsed_message)
+            print('[VIEWS] Title page : ' + wiki.page.title)
+            print('[VIEWS] address : ' + addr)
 
     res = {
-        "wikiped" : reply,
-        "gmap_coord" : coord
+        "first_message": first_message,
+        "second_message": second_message,
+        "gmap_coord": coord
     }
     return jsonify(result=res)
 
