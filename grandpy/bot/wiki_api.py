@@ -1,5 +1,4 @@
 import wikipedia
-import requests
 
 
 class WikiAPI:

@@ -3,6 +3,7 @@
 
 const chatbox = $("#chatbox")[0];
 var idNumber = 0;
+var loading = false;
 
 function getHour(){
 	var date = new Date();
@@ -93,16 +94,25 @@ function seeMore(thisId){
     }
 }
 
-function initMap(id, coord){
+function initMap(id, coord, title){
     // var test = {lat: 48.85837009999999, lng: 2.2944813};
     var map = new google.maps.Map(document.getElementById("map_" + id), {
-        center : coord,
-        zoom : 16
+        center: coord,
+        zoom: 17,
+        mapTypeControl: false,
+        scrollwheel: false,
+        navigationControl: false,
+        draggable: false,
+        zoomControl: true,
+    });
+    new google.maps.Marker({
+        position: coord,
+        map,
+        title: title,
     });
     console.log("ID : " + id)
     console.log("COORD : " + coord)
 
-    idNumber++;
 	return map
 }
 
@@ -118,14 +128,22 @@ $(document).ready(function(){
 		} else {
 			$("#send_btn").attr('disabled', true);
 		}
-	})
+    })
+    $("#send_btn").click(function(){
+        if (loading){
+            this.innerHTML = '<div class="spinner-border"></div>';
+        } else {
+            this.innerHTML = 'Envoyer';
+        }
+    })
 })
 
 addMessageToChat("Bonjour et bienvenue !!!", 'bot');
 
 $("#send_btn").click(function(){
+    loading = true
     var userText = $("#input").val();  // Return user input value
-	addMessageToChat(userText);
+    addMessageToChat(userText);
 	$.ajax({
 		type : 'POST',
 		url : '/process',
@@ -139,19 +157,19 @@ $("#send_btn").click(function(){
 				console.log(this_url);
 			}
             addMessageToChat(respons['first_message'], 'bot', map=false, url=this_url);
-
             if (respons['gmap_coord'] != null){
                 idNumber++;
                 addMessageToChat(respons['second_message'], 'bot', map=true);
-                initMap(idNumber, respons['gmap_coord']);
+                initMap(idNumber, respons['gmap_coord'], respons['title']);
             }
-			updateScroll();
+            updateScroll();
 		},
 		failure: function(response){
 			alert("failure");
 		}
-	})
+    })
 	$("#input").val("");
     $("#send_btn").attr('disabled', true);
     idNumber++;
+    loading = false;
 })

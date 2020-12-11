@@ -35,11 +35,13 @@ def process():
             second_message = None
             coord = None
             url = None
+            title = None
         else:
             coord = gmaps.get_coordinates(parsed_message)
             addr = gmaps.get_address(parsed_message)
             second_message = wiki_result
             url = wiki.page.url
+            title = wiki.page.title
             first_message = get_answer('valid') + addr
             print('[VIEWS] user input : ' + message)
             print('[VIEWS] parsed input : ' + parsed_message)
@@ -50,7 +52,8 @@ def process():
         "first_message": first_message,
         "second_message": second_message,
         "gmap_coord": coord,
-        "url": url
+        "url": url,
+        "title": title
     }
     return jsonify(result=res)
 
