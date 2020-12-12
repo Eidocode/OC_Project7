@@ -7,19 +7,23 @@ class GmapsAPI:
         self.gmaps = googlemaps.Client(key=self.KEY)
         self.result = None
 
-    def __get_informations(self, string):
-        self.result = self.gmaps.geocode(string)
+    def get_informations(self, string):
+        return self.gmaps.geocode(string)
 
     def get_coordinates(self, string):
         try:
-            self.__get_informations(string)
-            lat = self.result[0]["geometry"]["location"]["lat"]
-            lng = self.result[0]["geometry"]["location"]["lng"]
+            self.result = self.get_informations(string)
+            lat = self.result[0]['geometry']['location']['lat']
+            lng = self.result[0]['geometry']['location']['lng']
+            addr = self.result[0]['formatted_address']
             print("[GMAPS API] Latitude : " + str(lat))
             print("[GMAPS API] Longitude : " + str(lng))
             result = {
-                "lat": lat,
-                "lng": lng
+                'coord':{
+                    'lat': lat,
+                    'lng': lng
+                },
+                'addr' : addr
             }
         except googlemaps.exceptions.HTTPError:
             print('Gmaps error')
@@ -29,8 +33,3 @@ class GmapsAPI:
             result = 'error'
 
         return result
-
-    def get_address(self, string):
-        self.__get_informations(string)
-        addr = self.result[0]["formatted_address"]
-        return addr

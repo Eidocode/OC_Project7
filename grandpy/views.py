@@ -29,6 +29,7 @@ def process():
         message = request.form['message']
         parsed_message = ' '.join(parser.get_keywords(message))
         wiki_result = wiki.get_search_result(parsed_message)
+        gmaps_result = gmaps.get_coordinates(parsed_message)
 
         if wiki_result == 'error':
             first_message = get_answer('error')
@@ -37,12 +38,12 @@ def process():
             url = None
             title = None
         else:
-            coord = gmaps.get_coordinates(parsed_message)
-            addr = gmaps.get_address(parsed_message)
+            coord = gmaps_result['coord']
+            addr = gmaps_result['addr']
+            first_message = get_answer('valid') + addr
             second_message = wiki_result['summary']
             url = wiki_result['url']
             title = wiki_result['title']
-            first_message = get_answer('valid') + addr
             print('[VIEWS] user input : ' + message)
             print('[VIEWS] parsed input : ' + parsed_message)
             print('[VIEWS] Wiki page : ' + url)
