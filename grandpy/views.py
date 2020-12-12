@@ -39,13 +39,13 @@ def process():
         else:
             coord = gmaps.get_coordinates(parsed_message)
             addr = gmaps.get_address(parsed_message)
-            second_message = wiki_result
-            url = wiki.page.url
-            title = wiki.page.title
+            second_message = wiki_result['summary']
+            url = wiki_result['url']
+            title = wiki_result['title']
             first_message = get_answer('valid') + addr
             print('[VIEWS] user input : ' + message)
             print('[VIEWS] parsed input : ' + parsed_message)
-            print('[VIEWS] Wiki page : ' + wiki.page.url)
+            print('[VIEWS] Wiki page : ' + url)
             print('[VIEWS] address : ' + addr)
 
     res = {
