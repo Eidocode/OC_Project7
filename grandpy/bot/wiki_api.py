@@ -5,12 +5,15 @@ class WikiAPI:
     def __init__(self):
         wikipedia.set_lang("fr")
 
+    def search(self, string):
+        return wikipedia.search(string)
+
     def get_search_result(self, string):
         print('[WIKIAPI] : ' + string)
         try:
-            search = wikipedia.search(string)
-
+            search = self.search(string)
             page = wikipedia.page(search[0])
+
             result = {
                 'summary': page.summary,
                 'url': page.url,
