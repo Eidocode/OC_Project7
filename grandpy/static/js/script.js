@@ -48,7 +48,7 @@ function createMessage(text, type='user', btn, map=false){
 		    '<small>' + time + '</small><h6><b>' + who + '</b></h6>' +
 		    '<div class="bubble col-6 ' + offset + ' mt-1 border shadow ' + bg + ' ' + text_color + ' pt-3 pl-4">' +
 				'<p>' + text + gmap_widget +'</p>' +
-				'<button class="' + btnState + ' btn-primary btn-circle mb-2" onClick="seeMore(' + idName + ')" id="seeMoreButton_' + idNumber + '"><i class="fa fa-plus"></i></button>' +
+				'<button style="outline: none;" class="' + btnState + ' btn-primary btn-circle mb-2" onClick="seeMore(' + idName + ')" id="seeMoreButton_' + idNumber + '"><i class="fa fa-plus"></i></button>' +
             '</div>' +
         '</div>';
 	return message;
