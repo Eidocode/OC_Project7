@@ -143,9 +143,10 @@ addMessageToChat("Bonjour et bienvenue !!!", 'bot');
 $("#send_btn").click(function(){
     loading = true
     var userText = $("#input").val();  // Return user input value
+    console.log("INPUT : " + userText);
     addMessageToChat(userText);
 	$.ajax({
-		type : 'POST',
+        method : "POST",
 		url : '/process',
 		data : { message : userText },
 		dataType : 'json',

@@ -1,3 +1,5 @@
+import time
+
 from flask import Flask, render_template, request, jsonify
 
 from grandpy.bot.parser import Parser
@@ -25,9 +27,12 @@ def index():
 
 @app.route('/process', methods=['POST'])
 def process():
+    
     if request.method == 'POST':
         message = request.form['message']
+        print("[VIEWS] message : " + message)
         parsed_message = ' '.join(parser.get_keywords(message))
+        print("[VIEWS] parsed_message : " + parsed_message)
         wiki_result = wiki.get_search_result(parsed_message)
         gmaps_result = gmaps.get_coordinates(parsed_message)
 
