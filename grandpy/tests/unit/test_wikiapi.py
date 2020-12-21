@@ -3,7 +3,7 @@ from grandpy.bot.wiki_api import WikiAPI
 
 # - Wikipedia
 class TestWikipedia:
-    # Instancier WikiAPI()
+    # Instance WikiAPI()
     wiki = WikiAPI()
 
     # Test instance wiki
@@ -24,14 +24,14 @@ class TestWikipedia:
         monkeypatch.setattr(self.wiki, 'get_search_result', mockreturn)
         wiki_res = self.wiki.get_search_result(self, search)
 
-        # Test le sommaire de la page
+        # Test page summary
         assert wiki_res['summary'] == view_result['summary']
-        # Test l'URL de la page
+        # Test page url
         assert wiki_res['url'] == view_result['url']
-        # Test le titre de la page Wikipedia
+        # Test page title
         assert wiki_res['title'] == view_result['title']
 
-    # Envoyer une chaine intraitable (doit retourner une erreur)
+    # # sends an incomprehensible string (must return an error)
     def test_index_error(self, monkeypatch):
         result = []
 

@@ -1,3 +1,8 @@
+"""
+Function called by views.py when GrandPy Bot answers a question.
+Returns a random message depending on the question is valid or not.
+"""
+
 import random
 
 base_msg = "N'oublie pas que je suis un robot, je ne comprends donc pas tout. Tu peux en savoir plus en consultant la documentation disponible sur le repo GitHub du projet. Tu trouveras le lien dans le bas de la page."
@@ -17,11 +22,13 @@ valid_msg = [
 
 
 def get_answer(state):
+    # Defines if the question is "valid" or not
     if state == 'error':
         lst = error_msg
     elif state == 'valid':
         lst = valid_msg
 
+    # Create random answer according to state
     i = random.randrange(len(lst)-1)
     if state == 'error':
         msg = lst[i] + base_msg

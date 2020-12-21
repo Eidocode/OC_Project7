@@ -1,8 +1,7 @@
-import sys
 import pytest
 import requests
 
-from flask import request, current_app
+from flask import current_app
 
 from grandpy.views import app
 
@@ -11,19 +10,19 @@ from grandpy.bot.wiki_api import WikiAPI
 from grandpy.bot.gmaps_api import GmapsAPI
 from config import GMAPS_APP_ID
 
-
+# Classes instanciation
 parser = Parser()
 wiki = WikiAPI()
 gmap = GmapsAPI(GMAPS_APP_ID)
 
-get_message = None
-parsed_message = None
-wiki_result = None
-gmap_result = None
+get_message = None  # User's input message
 
 
 @pytest.fixture
 def client():
+    """
+    Init test client
+    """
     with app.test_client() as client:
         with app.app_context():
             assert current_app.config["ENV"] == "production"
@@ -31,23 +30,37 @@ def client():
 
 
 def test_index(client):
-    res = client.get('/')
-    assert res.status_code == 200
+    """
+    Test index route status code
+    """
+    ind = client.get('/')
+    ind2 = client.get('/index/')
+    assert ind.status_code == 200
+    assert ind2.status_code == 200
 
 
 def test_set_post(client):
+    """
+    Test for POST request
+    """
     global get_message
     url = 'http://127.0.0.1:5000/process'
-    question = { 'message': 'Bonjour, je veux des informations sur la tour Eiffel ?' }
-    res = requests.post(url, data=question)
+    question = {
+        'message': 'Bonjour, je veux des informations sur la tour Eiffel ?'
+    }
+    res = requests.post(url, data=question)  # POST request question
     get_message = question['message']
     assert res.status_code == 200
+    assert get_message == question['message']
 
 
-def test_process(client, monkeypatch):
-    global parsed_message
-    global wiki_result
-    global gmap_result
+def test_valid_process(client, monkeypatch):
+    """
+    Test of a valid process triggered by user's questions
+    """
+    parsed_message = None
+    wiki_result = None
+    gmap_result = None
 
     valid_answer = "Ah oui, je vois tout à fait ce dont tu veux parler. L'adresse est "
     error_answer = "Désolé mon grand, mais je ne comprends pas ta demande... "
@@ -76,8 +89,8 @@ def test_process(client, monkeypatch):
     def mock_gmap(string):
         return gmap_response
 
-    monkeypatch.setattr(wiki, 'get_search_result', mock_wiki)
-    monkeypatch.setattr(gmap, 'get_informations', mock_gmap)
+    monkeypatch.setattr(wiki, 'get_search_result', mock_wiki)  # Monkeypatch WikiAPI
+    monkeypatch.setattr(gmap, 'get_informations', mock_gmap)  # Monkeypatch GmapsAPI
 
     parsed_message = ' '.join(parser.get_keywords(get_message))
     assert parsed_message == 'tour eiffel'
@@ -110,8 +123,17 @@ def test_process(client, monkeypatch):
         "title": title
     }
 
+    assert not res["first_message"] == error_answer
     assert res["first_message"] == valid_answer + gmap_response[0]["formatted_address"]
+
+    assert not res["second_message"] is None
     assert res["second_message"] == wiki_response["summary"]
+
+    assert not res["gmap_coord"] is None
     assert res["gmap_coord"] == gmap_response[0]["geometry"]["location"]
+
+    assert not res["url"] is None
     assert res["url"] == wiki_response["url"]
+
+    assert not res["title"] is None
     assert res["title"] == wiki_response["title"]

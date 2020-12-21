@@ -1,10 +1,13 @@
+"""
+Unit test for GoogleMaps API
+"""
 from grandpy.bot.gmaps_api import GmapsAPI
 from config import GMAPS_APP_ID
 
 
 # API GoogleMaps
 class TestGmaps:
-    # Instancier GmapsAPI()
+    # Instance GmapsAPI()
     gmap = GmapsAPI(GMAPS_APP_ID)
 
     # Test instance gmaps
@@ -34,7 +37,7 @@ class TestGmaps:
         assert gmap_res['coord'] == view_result[0]["geometry"]["location"]
         assert gmap_res['addr'] == view_result[0]["formatted_address"]
 
-    # Envoyer une chaine intraitable (doit retourner une erreur)
+    # sends an incomprehensible string (must return an error)
     def test_index_error(self, monkeypatch):
         result = []
 

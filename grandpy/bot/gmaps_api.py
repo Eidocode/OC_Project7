@@ -2,6 +2,21 @@ import googlemaps
 
 
 class GmapsAPI:
+    """
+    Class used to communicate with GoogleMaps API
+
+    ...
+
+    Methods
+    -------
+    get_informations(string)
+        Returns geocode according to the location (string)
+
+    get_coordinates(string)
+        Returns the coordinates (Latitude, Longitude and address) of the
+        desired location (string).
+        If GoogleMaps encounters an error, return the string 'error'
+    """
     def __init__(self, api_id):
         self.KEY = api_id
         self.gmaps = googlemaps.Client(key=self.KEY)
