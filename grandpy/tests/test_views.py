@@ -62,7 +62,9 @@ def test_valid_process(client, monkeypatch):
     wiki_result = None
     gmap_result = None
 
-    valid_answer = "Ah oui, je vois tout à fait ce dont tu veux parler. L'adresse est "
+    valid_answer = (
+        "Ah oui, je vois tout à fait ce dont tu veux parler. L'adresse est "
+    )
     error_answer = "Désolé mon grand, mais je ne comprends pas ta demande... "
 
     wiki_response = {
@@ -73,7 +75,9 @@ def test_valid_process(client, monkeypatch):
 
     gmap_response = [
         {
-            "formatted_address": "Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France",
+            "formatted_address": (
+                "Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France"
+            ),
             "geometry": {
                 "location": {
                     "lat": 48.85837009999999,
@@ -89,8 +93,10 @@ def test_valid_process(client, monkeypatch):
     def mock_gmap(string):
         return gmap_response
 
-    monkeypatch.setattr(wiki, 'get_search_result', mock_wiki)  # Monkeypatch WikiAPI
-    monkeypatch.setattr(gmap, 'get_informations', mock_gmap)  # Monkeypatch GmapsAPI
+    # Monkeypatch WikiAPI
+    monkeypatch.setattr(wiki, 'get_search_result', mock_wiki)
+    # Monkeypatch GmapsAPI
+    monkeypatch.setattr(gmap, 'get_informations', mock_gmap)
 
     parsed_message = ' '.join(parser.get_keywords(get_message))
     assert parsed_message == 'tour eiffel'
@@ -124,7 +130,9 @@ def test_valid_process(client, monkeypatch):
     }
 
     assert not res["first_message"] == error_answer
-    assert res["first_message"] == valid_answer + gmap_response[0]["formatted_address"]
+    assert res["first_message"] == (
+        valid_answer + gmap_response[0]["formatted_address"]
+    )
 
     assert not res["second_message"] is None
     assert res["second_message"] == wiki_response["summary"]

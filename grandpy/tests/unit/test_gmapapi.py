@@ -17,7 +17,10 @@ class TestGmaps:
     def test_view_result(self, monkeypatch):
         view_result = [
             {
-                "formatted_address": "Champ de Mars, 5 Avenue Anatole France, 75007 Paris, France",
+                "formatted_address": (
+                        "Champ de Mars, 5 Avenue Anatole France, 75007 Paris, "
+                        "France"
+                    ),
                 "geometry": {
                     "location": {
                         "lat": 48.85837009999999,

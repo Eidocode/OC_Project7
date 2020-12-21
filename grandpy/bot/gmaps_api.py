@@ -34,11 +34,11 @@ class GmapsAPI:
             print("[GMAPS API] Latitude : " + str(lat))
             print("[GMAPS API] Longitude : " + str(lng))
             result = {
-                'coord':{
+                'coord': {
                     'lat': lat,
                     'lng': lng
                 },
-                'addr' : addr
+                'addr': addr
             }
         except googlemaps.exceptions.HTTPError:
             print('Gmaps error')
