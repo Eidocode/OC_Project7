@@ -1,6 +1,6 @@
 # Créez GrandPy Bot, le papy-robot 🤖 👴
 
-*Parcours développeur d'application Python : Projet OpenClassrooms n°7* 
+*Parcours développeur d'application Python : OpenClassrooms Projet n°7* 
 
 ### Sujet du projet
 
@@ -15,22 +15,22 @@ Pour la mise en place de ce projet, il était demandé de créer une page **HTML
 ### Déroulement de l'application
 
 Lors de l'ouverture de l'application, l'utilisateur se retrouve face à une fenêtre de "chat", dans laquelle **GrandPy Bot** nous accueille. L'utilisateur est alors invité à poser une question par le biais d'un champ de saisie.
-Lorsque l'utilisateur a posé sa question, celle-ci est envoyée par le biais d'une requête **POST**. La vue de notre application (**views.py**) se charge alors de récupérer le contenu de cette requête (en l'occurrence la chaine de caractères envoyée par l'utilisateur).
+Lorsque l'utilisateur a posé sa question, celle-ci est envoyée par le biais d'une requête **POST**. La vue de notre application (<a href="https://github.com/Eidocode/OC_Project7/blob/main/grandpy/views.py">*views.py*</a>) se charge alors de récupérer le contenu de cette requête (en l'occurrence la chaine de caractères envoyée par l'utilisateur).
 A ce moment, l'application **Flask** prend le relai, et se charge de traiter les informations reçues. 
 
-- **Parser (parser.py)**
-Le **parser**, qui est la première fonctionnalité de notre application, se charge de traiter la chaîne de caractères puis de retourner uniquement les mots qu'elle juge important. Pour cela, elle s'appuie sur une liste de "**Stop words**" (**final_stop_words.fic**) contenant des mots jugés inutiles dans une phrase et permettant d'aider **GrandPy Bot** à la compréhension de celle-ci.
+- **Parser** (<a href="https://github.com/Eidocode/OC_Project7/blob/main/grandpy/bot/parser.py">*parser.py*</a>)
+Le **parser**, qui est la première fonctionnalité de notre application, se charge de traiter la chaîne de caractères puis de retourner uniquement les mots qu'elle juge important. Pour cela, elle s'appuie sur une liste de "**Stop words**" (<a href=https://github.com/Eidocode/OC_Project7/blob/main/grandpy/bot/final_stop_words.fic>*final_stop_words.fic*</a>) contenant des mots jugés inutiles dans une phrase et permettant d'aider **GrandPy Bot** à la compréhension de celle-ci.
 Une fois la ponctuation et les mots jugés superflus supprimés, le **Parser** retourne à la vue une liste des mots restants.
 
-- **WikiAPI (wiki_api.py)**
-La deuxième fonctionnalité qui consiste à communiquer avec l'**API Wikipedia** (**wiki_api.py**) est ensuite utilisée. Les informations renvoyées par le **Parser** sont alors envoyées à l'**API Wikipedia**.
+- **WikiAPI** (<a href="https://github.com/Eidocode/OC_Project7/blob/main/grandpy/bot/wiki_api.py">*wiki_api.py*</a>)
+La deuxième fonctionnalité qui consiste à communiquer avec l'**API Wikipedia** est ensuite utilisée. Les informations renvoyées par le **Parser** sont alors envoyées à l'**API Wikipedia**.
 Wikipedia renvoi alors une liste de résultat à notre recherche. Un élément de la liste est sélectionné puis nous renvoyons à la vue les informations Wikipedia composées du **sommaire** de la page, de son **URL** ainsi que son **titre**.
 
-- **GmapsAPI (gmaps_api.py)**
-La fonctionnalité suivante permet de communiquer directement avec l'**API Googlemaps** (**gmaps_api.py**). De la même façon que la fonctionnalité précédente, les informations "**parsées**" sont envoyées à l'**API Googlemaps**.
+- **GmapsAPI** (<a href="https://github.com/Eidocode/OC_Project7/blob/main/grandpy/bot/gmaps_api.py">*gmaps_api.py*</a>)
+La fonctionnalité suivante permet de communiquer directement avec l'**API Googlemaps**. De la même façon que la fonctionnalité précédente, les informations "**parsées**" sont envoyées à l'**API Googlemaps**.
 Googlemaps retourne alors les coordonnées (**latitude** + **longitude**) ainsi que l'adresse postale de la recherche.
 
-Une fois toutes les données récupérées, un traitement de celles-ci est effectuée dans **views.py**. On vérifie que les API n'ont pas renvoyé une erreur, puis on construit le message de réponse du bot. La réponse se fait par le biais de deux messages, un premier composé d'une phrase aléatoire (déterminée par la fonction **get_answer**) ainsi que l'adresse postale retournée précédemment par l'**API Googlemaps**. Le deuxième message contient le sommaire retourné par l'**API Wikipédia**, ainsi que la carte Googlemaps.
+Une fois toutes les données récupérées, un traitement de celles-ci est effectuée dans <a href="https://github.com/Eidocode/OC_Project7/blob/main/grandpy/views.py">*views.py*</a>. On vérifie que les API n'ont pas renvoyé une erreur, puis on construit le message de réponse du bot. La réponse se fait par le biais de deux messages, un premier composé d'une phrase aléatoire (déterminée par la fonction **get_answer**) ainsi que l'adresse postale retournée précédemment par l'**API Googlemaps**. Le deuxième message contient le sommaire retourné par l'**API Wikipédia**, ainsi que la carte Googlemaps.
 On retourne alors le résultat de ce traitement au format **JSON**, qui sera ensuite exploité par le script **JavaScript** pour afficher les différents éléments dans la fenêtre de chat de l'utilisateur.
 
 ## Installation du projet
@@ -54,16 +54,16 @@ Pour mettre en place le projet il est recommandé de créer un **environnement v
  
 		pip install -r requirements.txt
 
- 5. **Configuration du config.py** :
+ 5. **Configuration de l'application** :
 
-	 Le projet ne peut pas fonctionner si les variables renseignées dans le **config.py** restent vides. Ce fichier contient deux variables nommées **SECRET_KEY** et **GMAPS_APP_ID**. La variable **SECRET_KEY** doit être généré aléatoirement une fois est liée uniquement au projet en cours. Il est donc indispensable de ne pas la diffuser une fois générée. Il est possible de le faire (depuis une console **Python**) de la façon suivante :
+	 Le projet ne peut pas fonctionner si les variables renseignées dans le <a href="https://github.com/Eidocode/OC_Project7/blob/main/config.py">*config.py*</a> restent vides. Ce fichier contient deux variables nommées **SECRET_KEY** et **GMAPS_APP_ID**. La variable **SECRET_KEY** doit être généré aléatoirement une fois est liée uniquement au projet en cours. Il est donc indispensable de ne pas la diffuser une fois générée. Il est possible de le faire (depuis une console **Python**) de la façon suivante :
 
 		>>> import random, string
 		>>> "".join([random.choice(string.printable) for _ in range(24)])
 
-	Il suffira alors de copier la chaîne de caractères générée dans le fichier **config.py**.
-	Concernant la variable **GMAPS_APP_ID**, celle-ci est en fait un **token** délivré par google pour pouvoir utiliser les **API**. De la même manière que la variable **SECRET_KEY** celle-ci doit rester secrète et liée uniquement à une instance du projet. Pour la créer, il est nécessaire de créer un compte sur **Google Cloud Platform**, voici un tutoriel détaillant les différentes étapes nécessaires à l'obtention de ce **Token** --> https://developers.google.com/maps/gmp-get-started
-	Une fois la clé obtenue, il faudra la renseigner dans le fichier **config.py**
+	Il suffira alors de copier la chaîne de caractères générée dans le fichier <a href="https://github.com/Eidocode/OC_Project7/blob/main/config.py">*config.py*</a>.
+	Concernant la variable **GMAPS_APP_ID**, celle-ci est en fait un **token** délivré par google pour pouvoir utiliser les **API**. De la même manière que la variable **SECRET_KEY** celle-ci doit rester secrète et liée uniquement à une instance du projet. Pour la créer, il est nécessaire de créer un compte sur **Google Cloud Platform**, voici un tutoriel détaillant les différentes étapes nécessaires à l'obtention de ce **Token** --> *https://developers.google.com/maps/gmp-get-started*
+	Une fois la clé obtenue, il faudra la renseigner dans le fichier <a href="https://github.com/Eidocode/OC_Project7/blob/main/config.py">*config.py*</a>
 
  6. **Exécution de l'environnement Flask (à adapter selon l'OS)** :
 
@@ -74,18 +74,18 @@ Pour mettre en place le projet il est recommandé de créer un **environnement v
 
 ## Déploiement de l'application
 
-Dans le cas de ce projet, l'application a été déployée sur **Heroku**, nous pouvons la retrouver à l'adresse suivante : https://radiant-citadel-84173.herokuapp.com/.
+Dans le cas de ce projet, l'application a été déployée sur **Heroku**, nous pouvons la retrouver à l'adresse suivante : *https://radiant-citadel-84173.herokuapp.com/*.
 
-Pour effectuer ce déploiement, il suffit de suivre, simplement, la documentation fournit à ce sujet. Elle est consultable à l'adresse suivante : https://devcenter.heroku.com/articles/getting-started-with-python.
+Pour effectuer ce déploiement, il suffit de suivre, simplement, la documentation fournit à ce sujet. Elle est consultable à l'adresse suivante : *https://devcenter.heroku.com/articles/getting-started-with-python*.
 
-A savoir que lors du déploiement, nous ne renseignons pas les variables contenus dans le **config.py** directement dans celui-ci. En effet, **Heroku** utilise pour ce genre d'information des variables d'environnement, nommées ici **Config Vars**. C'est ce que l'on utilisera pour déclarer les variables **SECRET_KEY** et **GMAP_APP_ID**.
+A savoir que lors du déploiement, nous ne renseignons pas les variables contenus dans le <a href="https://github.com/Eidocode/OC_Project7/blob/main/config.py">*config.py*</a> directement dans celui-ci. En effet, **Heroku** utilise pour ce genre d'information des variables d'environnement, nommées ici **Config Vars**. C'est ce que l'on utilisera pour déclarer les variables **SECRET_KEY** et **GMAP_APP_ID**.
 Il suffit alors de déclarer les variables (dans l'environnement **Heroku**) de la façon suivante : 
 ***A savoir qu'il est également possible de le faire depuis le dashboard du projet***
 
 		heroku config:set SEC_KEY=(valeur de la variable)
 		heroku config:set GMAP_TOKEN=(valeur de la variable)
 
-Reste ensuite à appeler ces variables d'environnement dans le fichier **config.py** de l'application destinée à être déployée sur **Heroku**.
+Reste ensuite à appeler ces variables d'environnement dans le fichier <a href="https://github.com/Eidocode/OC_Project7/blob/main/config.py">*config.py*</a> de l'application destinée à être déployé sur **Heroku**.
 
 		import os
 		
@@ -103,7 +103,18 @@ Voici des phrases qui fonctionnent :
  - *Hey GrandPy, comment vas-tu ? Connais-tu la cathédrale d'Amiens ?*
  - *GrandPy, parle moi de la muraille de Chine*
 
-Une fonctionnalité (externe) à l'application, dans le répertoire nommé "**stop_words**" à la racine du projet, est disponible. Elle permet d'ajouter, par le biais d'un menu, des nouveaux mots qui seront directement ajoutés au fichier "**final_stop_words.fic**" (en vérifiant préalablement la présence du mot dans le fichier). Il est également possible de vérifier uniquement qu'un mot existe déjà ou pas dans le fichier. Cela permettra de filtrer, à l'avenir, plus de mots par notre Bot, et donc, d'améliorer sa compréhension des questions posées par les utilisateurs. 
+Une fonctionnalité (externe) à l'application, dans le répertoire nommé <a href="https://github.com/Eidocode/OC_Project7/tree/main/stop_words">*stop_words*</a> à la racine du projet, est disponible. Elle permet d'ajouter, par le biais d'un menu, des nouveaux mots qui seront directement ajoutés au fichier <a href="https://github.com/Eidocode/OC_Project7/blob/main/grandpy/bot/final_stop_words.fic">*final_stop_words.fic*</a> (en vérifiant préalablement la présence du mot dans le fichier). Il est également possible de vérifier uniquement qu'un mot existe déjà ou pas dans le fichier. Cela permettra de filtrer, à l'avenir, plus de mots par notre Bot, et donc, d'améliorer sa compréhension des questions posées par les utilisateurs. 
+
+## Tests unitaires et fonctionnels
+
+Des tests unitaires et fonctionnels sont disponibles dans le répertoire <a href="https://github.com/Eidocode/OC_Project7/tree/main/grandpy/tests">*tests*</a> de l'application. Les tests unitaires se trouvent dans le répertoire enfant <a href="https://github.com/Eidocode/OC_Project7/tree/main/grandpy/tests/unit">*unit*</a>, voici le détail des fichiers :
+	
+ - <a href="https://github.com/Eidocode/OC_Project7/blob/main/grandpy/tests/unit/test_gmapapi.py">*test_gmapapi.py*</a> :  *Test unitaire de la classe **GmapsAPI***
+ - <a href="https://github.com/Eidocode/OC_Project7/blob/main/grandpy/tests/unit/test_parser.py">*test_parser.py*</a> : *Test unitaire de la classe **Parser** utilisée dans l'application*
+ - <a href="https://github.com/Eidocode/OC_Project7/blob/main/grandpy/tests/unit/test_stopwords.py">*test_stopwords.py*</a> : *Test unitaire de la fonction **get_stop_words***
+ - <a href="https://github.com/Eidocode/OC_Project7/blob/main/grandpy/tests/unit/test_wikiapi.py">*test_wikiapi.py*</a> : *Test unitaire de la classe **WikiAPI***
+
+Un test fonctionnel nommé <a href="https://github.com/Eidocode/OC_Project7/blob/main/grandpy/tests/test_views.py">*test_views.py*</a> est également disponible à la racine du répertoire <a href="https://github.com/Eidocode/OC_Project7/tree/main/grandpy/tests">*tests*</a>. Il permet notamment de tester le processus qui se déroule lors de la soumission de l'input par un utilisateur. De façon à vérifier que toutes les fonctionnalités s'échangent correctement les informations.
 
 ## Bugs connus
 
