@@ -112,6 +112,7 @@ Voici la liste des bugs connus aujourd'hui et qui ne sont pas résolus à ce jou
  - **Mozilla Firefox** : Ce navigateur est aujourd'hui inutilisable avec l'application. Si la page d'accueil et le chat s'affichent correctement au départ, une erreur se produit lors de la soumission de l'input par l'utilisateur. En effet, le navigateur semble doubler les requêtes et donc ici la requête **POST**... Ce qui a pour effet de retourner une seconde requête vide. Une erreur se produit alors puisque l'application demande le retour de l'entrée "**message**" qui n'existe plus dans cette seconde requête.
 	Après quelques recherches, ce bug semble connu. Notamment lorsqu'il s'agit d'une application **Flask**.
 	Je n'ai pas noté, à ce jour, un phénomène équivalent dans les autres navigateurs. Voici ceux qui ont été testés et qui fonctionnent : 
+	
 	 - [X] *Google Chrome*
 	 - [X] *Chromium*
 	 - [X] *Safari (**iOS**)*
