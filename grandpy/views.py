@@ -42,7 +42,7 @@ def process():
         gmaps_result = gmaps.get_coordinates(parsed_message)
 
         # Checks value returned by wiki_result
-        if wiki_result == 'error':
+        if wiki_result == 'error' or gmaps_result == 'error':
             first_message = get_answer('error')
             second_message = None
             coord = None

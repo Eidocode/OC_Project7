@@ -143,6 +143,7 @@ function updateScroll(){
 }
 
 function loadingAnim(state=false){
+    // Loading animation
     var loadingChat = 
     '<div id="loading2" class="row">' +
         '<br></br>' +
@@ -176,7 +177,9 @@ $(document).ready(function(){
     })
 })
 
+
 $(document).on({
+    // Loading animation during ajax request
     ajaxStart: function() { 
         loadingAnim(true)
         updateScroll(); // Autoscroll function
