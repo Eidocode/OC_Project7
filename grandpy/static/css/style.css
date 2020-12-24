@@ -4,7 +4,12 @@
 }
 
 #input {
-	height: 45px;
+    height: 45px;
+    text-indent: 10px;
+}
+
+#loading {
+    margin-right: 40px;
 }
 
 .gmap {

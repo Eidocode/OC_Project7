@@ -142,17 +142,51 @@ function updateScroll(){
 	chatbox.scrollTop = chatbox.scrollHeight;
 }
 
+function loadingAnim(state=false){
+    var loadingChat = 
+    '<div id="loading2" class="row">' +
+        '<br></br>' +
+        '<div class="col-6 offset mt1 pt-3 pl-4">' +
+            '<span class="text-secondary">' +
+                '<span class="spinner-border" role="status" aria-hidden="true"></i></span>' +
+                '&ensp; Please wait...' +
+            '</span>' +
+        '</div>' +
+    '</div>'
+
+    var load = $("#loading")
+    if (state === true) {
+        load.removeClass('invisible').addClass('visible');
+        chatbox.innerHTML += loadingChat
+    } else {
+        load.removeClass('visible').addClass('invisible');
+        $('div[id^="loading2"]').remove();
+    }
+}
+
 
 $(document).ready(function(){
     // Disabled or enabled input send button
 	$("#input").keyup(function(){
 		if($(this).val().length > 1){
-			$("#send_btn").attr('disabled', false);
+            $("#send_btn").attr('disabled', false);
 		} else {
 			$("#send_btn").attr('disabled', true);
 		}
     })
 })
+
+$(document).on({
+    ajaxStart: function() { 
+        loadingAnim(true)
+        updateScroll(); // Autoscroll function
+     },
+    ajaxStop: function() { 
+        loadingAnim(false) 
+        updateScroll(); // Autoscroll function
+    },
+});
+
 
 // First bot message
 addMessageToChat("Bonjour et bienvenue !!!", 'bot');
@@ -161,7 +195,6 @@ $("#send_btn").click(function(){
     var userText = $("#input").val();  // Returns user's input value
     console.log("INPUT : " + userText);
     addMessageToChat(userText); // Adds user's input to a chat message
-    
     $.ajax({
         method : "POST",
 		url : '/process',
@@ -182,13 +215,11 @@ $("#send_btn").click(function(){
                 addMessageToChat(respons['second_message'], 'bot', map=true);
                 initMap(idNumber, respons['gmap_coord'], respons['title']);
             }
-            updateScroll(); // Autoscroll function
 		},
 		failure: function(response){
 			alert("failure");
 		}
     })
-
 	$("#input").val(""); // Cleans input field
     $("#send_btn").attr('disabled', true); // Disables input send button
     idNumber++;
