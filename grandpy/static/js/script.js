@@ -191,8 +191,19 @@ $(document).on({
 });
 
 
-// First bot message
-addMessageToChat("Bonjour et bienvenue !!!", 'bot');
+// First bot messages
+var messages = [ 
+    "Bonjour et bienvenue !!! Je suis GrandPy Bot. Tu peux me demander des renseignements sur une place ou un lieu et je m'efforcerai d'y répondre.",
+    "Je suis un peu dur de la feuille, il faut donc parfois reformuler les choses pour que je puisse les comprendre. N'hésite donc pas à le faire.",
+    "Tu peux également consulter la documentation depuis le lien Github du projet. Il est accessible dans le bas de la page."
+]
+
+messages.forEach(msg => {
+    addMessageToChat(msg, 'bot');
+    updateScroll(); // Autoscroll function
+});
+
+
 
 $("#send_btn").click(function(){
     var userText = $("#input").val();  // Returns user's input value
