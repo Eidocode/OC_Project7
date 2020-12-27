@@ -11,6 +11,7 @@ Pourtant, j'adore ses récits ! J'ai beaucoup appris et rêvé d'autres contrée
 ## Structure du projet
 
 Pour la mise en place de ce projet, il était demandé de créer une page **HTML** permettant à l'utilisateur d'interagir avec le bot, ainsi qu'une application **Flask** (**Framework Python**) chargée de toute la partie "traitement". Pour faire la jonction entre l'application et la page **HTML**, nous utilisons un script **JavaScript** composé de **JQuery** ainsi que de requêtes **Ajax**.
+La partie interface graphique est assurée par le framework **CSS Bootstrap 4**. Certaines parties sont "personnalisées" dans un fichier **CSS** standard. Certaines icônes présentent sur le site proviennent de <a href="https://fontawesome.com/">*Font Awesome*</a>
 
 ### Déroulement de l'application
 
