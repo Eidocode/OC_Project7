@@ -1,4 +1,3 @@
-
 const chatbox = $("#chatbox")[0];
 var idNumber = 0; // used when inserting new ID in HTML file
 
@@ -9,7 +8,7 @@ function getHour(){
 	var date = new Date();
 	var hours = date.getHours();
     var minutes = date.getMinutes();
-    
+
     // Adds a '0' before the hour or minutes if they are less than 10
 	if(hours < 10){ hours = "0" + hours; }
 	if(minutes < 10){ minutes = "0" + minutes; }
@@ -22,7 +21,7 @@ function createMessage(text, type='user', btn, map=false){
     // Function used to create a message
 
 	var time = getHour(); // Get current time
-    
+
     // Sets message's default properties
     var textPosition = "text-right";
 	var who = "Vous";
@@ -42,9 +41,9 @@ function createMessage(text, type='user', btn, map=false){
 
     // Adds this div if the message must contain a map
     if (map === true) {
-		gmap_widget = '<div id="map_' + idNumber + '"  class="gmap border border-primary"></div>'
+		gmap_widget = '<div id="map_' + idNumber + '"  class="gmap border border-primary"></div>';
     }
-    
+
     // Sets see more button's properties
     var idName = "seeMoreButton_" + idNumber;
     btnState = "d-none";
@@ -68,7 +67,7 @@ function addMessageToChat(message, type='user', map=false, url){
     // Function used to add a message to the chat
 
     console.log(type + ' : ' + message.length + ' character(s)');
-    
+
     var btnState = 'disabled'; // See more button state
 	var link = null; // Wikipedia's page link
 
@@ -77,7 +76,7 @@ function addMessageToChat(message, type='user', map=false, url){
 		messageMin = message.substring(0,150);
 		messageMax = message.substring(150,message.length);
 		message = messageMin + '<span class="d-inline" id="dots_' + idNumber + '">...</span><span class="d-none" id="more_' + idNumber + '">' + messageMax;
-        btnState = 'enabled' // adds see more button
+        btnState = 'enabled'; // adds see more button
 	}
 
     // Adds Wikipedia's page link if necessary
@@ -107,11 +106,11 @@ function seeMore(thisId){
     if (dots.attr('class') === 'd-none') {
         dots.removeClass('d-none').addClass('d-inline');
         moreText.removeClass('d-inline').addClass('d-none');
-        btnText.find('i').removeClass("fa fa-minus").addClass("fa fa-plus")
+        btnText.find('i').removeClass("fa fa-minus").addClass("fa fa-plus");
     } else {
         dots.removeClass('d-inline').addClass('d-none');
         moreText.removeClass('d-none').addClass('d-inline');
-        btnText.find('i').removeClass("fa fa-plus").addClass("fa fa-minus")
+        btnText.find('i').removeClass("fa fa-plus").addClass("fa fa-minus");
     }
 }
 
@@ -134,7 +133,7 @@ function initMap(id, coord, title){
         map,
         title: title,
     });
-	return map
+	return map;
 }
 
 function updateScroll(){
@@ -153,12 +152,12 @@ function loadingAnim(state=false){
                 '&ensp; Please wait...' +
             '</span>' +
         '</div>' +
-    '</div>'
+    '</div>';
 
     var load = $("#loading")
     if (state === true) {
         load.removeClass('invisible').addClass('visible');
-        chatbox.innerHTML += loadingChat
+        chatbox.innerHTML += loadingChat;
     } else {
         load.removeClass('visible').addClass('invisible');
         $('div[id^="loading2"]').remove();
@@ -181,11 +180,11 @@ $(document).ready(function(){
 $(document).on({
     // Loading animation during ajax request
     ajaxStart: function() { 
-        loadingAnim(true)
+        loadingAnim(true);
         updateScroll(); // Autoscroll function
      },
     ajaxStop: function() { 
-        loadingAnim(false) 
+        loadingAnim(false);
         updateScroll(); // Autoscroll function
     },
 });
@@ -196,7 +195,7 @@ var messages = [
     "Bonjour et bienvenue !!! Je suis GrandPy Bot. Tu peux me demander des renseignements sur une place ou un lieu et je m'efforcerai d'y répondre.",
     "Je suis un peu dur de la feuille, il faut donc parfois reformuler les choses pour que je puisse les comprendre. N'hésite donc pas à le faire.",
     "Tu peux également consulter la documentation depuis le lien Github du projet. Il est accessible dans le bas de la page."
-]
+];
 
 messages.forEach(msg => {
     addMessageToChat(msg, 'bot');
@@ -204,9 +203,16 @@ messages.forEach(msg => {
 });
 
 
-
 $("#send_btn").click(function(){
     var userText = $("#input").val();  // Returns user's input value
+    
+    if (userText.trim().length === 0){
+        alert("L'envoi d'un message vide n'est pas possible. Merci de saisir une question");
+        $("#input").val(""); // Cleans input field
+        $("#send_btn").attr('disabled', true); // Disables input send button
+        return;
+    }
+
     console.log("INPUT : " + userText);
     addMessageToChat(userText); // Adds user's input to a chat message
     $.ajax({
@@ -216,7 +222,7 @@ $("#send_btn").click(function(){
 		dataType : 'json',
 		success: function(response){
             var respons = response.result; // Gets response from views.py
-            
+
             // Adds datas to bot messages
 			var this_url = null;
 			if (respons['url'] != null){
@@ -237,4 +243,4 @@ $("#send_btn").click(function(){
 	$("#input").val(""); // Cleans input field
     $("#send_btn").attr('disabled', true); // Disables input send button
     idNumber++;
-})
+});

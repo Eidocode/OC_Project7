@@ -24,7 +24,7 @@ def index():
     return render_template('index.html')
 
 
-# processing route
+# process route
 @app.route('/process', methods=['POST'])
 def process():
 
@@ -32,10 +32,12 @@ def process():
         # Gets user's input
         message = request.form['message']
         print("[VIEWS] message : " + message)
+        print(len(message))
 
         # Parse user's input
         parsed_message = ' '.join(parser.get_keywords(message))
         print("[VIEWS] parsed_message : " + parsed_message)
+        print(len(parsed_message))
 
         # Sends parsed message to APIs
         wiki_result = wiki.get_search_result(parsed_message)
