@@ -1,40 +1,55 @@
+/* Init margin & padding */
 *{
     margin:0;
     padding:0;
 }
 
-#chatbox {
-	height: 700px;
-    overflow: auto;
+/* Chatbox container */
+#chat {
+    overflow: hidden;
 }
 
+/* Chatbox */
+#chatbox {
+	height: 700px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* Footer bar */
 .footer {
     position: fixed; 
     bottom: 0;
     width: 100%;
 }
 
+/* Chatbox Title */
 #title {
     height: 3em;
 }
 
+/* Input bar */
 #input {
     height: 3em;
     text-indent: 10px;
 }
 
+/* Loading animation */
 #loading {
     margin-right: 40px;
 }
 
+/* Googlemap */
 .gmap {
 	height: 300px;
 }
 
+/* Chat bubble */
 .bubble {
 	border-radius: 25px;
 }
 
+/* Text expansion button */
 .btn-circle {
     width: 30px;
     height: 30px;
@@ -43,7 +58,7 @@
 
 /* Scrollbar width */
 ::-webkit-scrollbar {
-	width: 10px;
+	width: 3px;
 }
   
 /* Scrollbar Track */
