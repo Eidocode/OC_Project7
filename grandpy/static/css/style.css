@@ -1,10 +1,15 @@
+*{
+    margin:0;
+    padding:0;
+}
+
 #chatbox {
-	height: 800px;
+	height: 700px;
     overflow: auto;
 }
 
 .footer {
-    position: fixed;
+    position: fixed; 
     bottom: 0;
     width: 100%;
 }
@@ -36,22 +41,22 @@
 	border-radius: 15px;
 }
 
-/* width */
+/* Scrollbar width */
 ::-webkit-scrollbar {
 	width: 10px;
 }
   
-/* Track */
+/* Scrollbar Track */
 ::-webkit-scrollbar-track {
 background: #f1f1f1;
 }
 
-/* Handle */
+/* Scrollbar Handle */
 ::-webkit-scrollbar-thumb {
 background: #888;
 }
 
-/* Handle on hover */
+/* Scrollbar Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
 background: #555;
 }
